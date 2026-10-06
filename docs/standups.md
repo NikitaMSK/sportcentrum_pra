@@ -1,30 +1,30 @@
 # Daily Stand-ups
 
-## Les 1 - [Datum]
+## Les 1 - [29-09-2026]
 
 ### Aanwezig
 
-* [Naam 1]
-* [Naam 2]
-* [Naam 3]
+* [Nikita]
+* [Walid]
+* [Dexx]
 
 ### Wat heb ik gedaan?
 
-* **[Naam 1]:**
-* **[Naam 2]:**
-* **[Naam 3]:**
+* **[Nikita]:** 
+* **[Walid]:**
+* **[Dexx]:**
 
 ### Wat ga ik doen?
 
-* **[Naam 1]:**
-* **[Naam 2]:**
-* **[Naam 3]:**
+* **[Nikita]:** 
+* **[Walid]:**
+* **[Dexx]:**
 
 ### Wat houdt mij tegen?
 
-* **[Naam 1]:** Geen blockers
-* **[Naam 2]:** Geen blockers
-* **[Naam 3]:** Geen blockers
+* **[Nikita]:** Geen blockers
+* **[Walid]:** Geen blockers
+* **[Dexx]:** Geen blockers
 
 ---
 
