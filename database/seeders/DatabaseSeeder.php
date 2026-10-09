@@ -1,4 +1,6 @@
 <?php
+
+
 namespace Database\Seeders;
 
 use App\Models\Trainer;
@@ -9,17 +11,17 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        $trainer1 = Trainer::firstOrCreate([
-            'naam' => 'Dexx Brodie'
-        ]);
+        $trainer1 = Trainer::firstOrCreate(
+            ['naam' => 'Dexx Brodie']
+        );
 
-        $trainer2 = Trainer::firstOrCreate([
-            'naam' => 'Nikita Moskalenko'
-        ]);
+        $trainer2 = Trainer::firstOrCreate(
+            ['naam' => 'Nikita Moskalenko']
+        );
 
-        $trainer3 = Trainer::firstOrCreate([
-            'naam' => 'Walid Ettejdirti'
-        ]);
+        $trainer3 = Trainer::firstOrCreate(
+            ['naam' => 'Walid Ettejdirti']
+        );
 
         Les::firstOrCreate(
             [
@@ -27,7 +29,9 @@ class DatabaseSeeder extends Seeder
                 'tijd' => '10:00:00',
                 'activiteit' => 'Spinning',
             ],
-            ['trainer_id' => $trainer1->id]
+            [
+                'trainer_id' => $trainer1->id,
+            ]
         );
 
         Les::firstOrCreate(
@@ -36,7 +40,9 @@ class DatabaseSeeder extends Seeder
                 'tijd' => '14:00:00',
                 'activiteit' => 'Yoga',
             ],
-            ['trainer_id' => $trainer2->id]
+            [
+                'trainer_id' => $trainer2->id,
+            ]
         );
 
         Les::firstOrCreate(
@@ -45,7 +51,9 @@ class DatabaseSeeder extends Seeder
                 'tijd' => '12:00:00',
                 'activiteit' => 'Aqua',
             ],
-            ['trainer_id' => $trainer3->id]
+            [
+                'trainer_id' => $trainer3->id,
+            ]
         );
     }
 }
