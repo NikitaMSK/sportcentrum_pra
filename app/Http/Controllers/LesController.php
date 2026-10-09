@@ -10,6 +10,6 @@ class LesController extends Controller
     {
         $lessen = Les::with('trainer')->get();
 
-        return view('lessen.index', compact('lessen'));
+        return view('home', compact('lessen'));
     }
 }
