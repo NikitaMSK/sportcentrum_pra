@@ -266,10 +266,23 @@ footer {
     </header>
 
     <nav>
-        <a href="/">Home</a>
-        <a href="/lessen">Lessen</a>
+        <a href="{{ route('home') }}">Home</a>
+        <a href="{{ url('/lessen') }}">Lessen</a>
         <a href="/reserveringen">Mijn reserveringen</a>
-        <a href="/inloggen">Inloggen</a>
+        @guest
+            <a href="{{ route('login') }}">Inloggen</a>
+            <a href="{{ route('register') }}">Account aanmaken</a>
+        @else
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <button
+                    type="submit"
+                    class="rounded-md px-4 py-2 font-bold text-white transition hover:bg-blue-600"
+                >
+                    Uitloggen ({{ auth()->user()->name }})
+                </button>
+            </form>
+        @endguest
     </nav>
 
     <main>
@@ -323,4 +336,3 @@ Kom in beweging en werk aan een gezondere levensstijl!</p>
 
 </body>
 </html>
-
