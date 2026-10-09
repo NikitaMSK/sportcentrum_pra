@@ -290,10 +290,10 @@ Kom in beweging en werk aan een gezondere levensstijl!</p>
                         <img src="{{ asset('img/spinning.jpeg') }}"
                              alt="Spinning">
                     @elseif (strtolower($les->activiteit) === 'yoga')
-                        <img src="{{ asset('img/yoga.webp') }}"
+                        <img src="{{ asset('img/yogahoi.jpg') }}"
                              alt="Yoga">
                     @elseif (strtolower($les->activiteit) === 'aqua')
-                        <img src="{{ asset('img/aqua.jpg') }}"
+                        <img src="{{ asset('img/Aquaa.jpeg') }}"
                              alt="Aqua">
                     @endif
 
