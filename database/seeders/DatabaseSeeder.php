@@ -3,7 +3,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
 use App\Models\Trainer;
 use App\Models\Les;
 use Illuminate\Database\Seeder;
@@ -12,29 +11,26 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
-
-        Trainer::firstOrCreate(
-            ['id' => 1],
-            ['naam' => 'Jan Jansen']
+        $trainer1 = Trainer::firstOrCreate(
+            ['naam' => 'Dexx Brodie']
         );
 
-        Trainer::firstOrCreate(
-            ['id' => 2],
-            ['naam' => 'Sara de Vries']
+        $trainer2 = Trainer::firstOrCreate(
+            ['naam' => 'Nikita Moskalenko']
+        );
+
+        $trainer3 = Trainer::firstOrCreate(
+            ['naam' => 'Walid Ettejdirti']
         );
 
         Les::firstOrCreate(
             [
                 'datum' => '2026-10-10',
                 'tijd' => '10:00:00',
-                'activiteit' => 'Fitness',
+                'activiteit' => 'Spinning',
             ],
             [
-                'trainer_id' => 1,
+                'trainer_id' => $trainer1->id,
             ]
         );
 
@@ -45,7 +41,18 @@ class DatabaseSeeder extends Seeder
                 'activiteit' => 'Yoga',
             ],
             [
-                'trainer_id' => 2,
+                'trainer_id' => $trainer2->id,
+            ]
+        );
+
+        Les::firstOrCreate(
+            [
+                'datum' => '2026-10-10',
+                'tijd' => '12:00:00',
+                'activiteit' => 'Aqua',
+            ],
+            [
+                'trainer_id' => $trainer3->id,
             ]
         );
     }
