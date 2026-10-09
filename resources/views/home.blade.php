@@ -287,10 +287,10 @@ Kom in beweging en werk aan een gezondere levensstijl!</p>
                 <article class="les">
 
                     @if (strtolower($les->activiteit) === 'spinning')
-                        <img src="{{ asset('img/spinning.jpg') }}"
+                        <img src="{{ asset('img/spinning.jpeg') }}"
                              alt="Spinning">
                     @elseif (strtolower($les->activiteit) === 'yoga')
-                        <img src="{{ asset('img/yoga.jpg') }}"
+                        <img src="{{ asset('img/yoga.webp') }}"
                              alt="Yoga">
                     @elseif (strtolower($les->activiteit) === 'aqua')
                         <img src="{{ asset('img/aqua.jpg') }}"
