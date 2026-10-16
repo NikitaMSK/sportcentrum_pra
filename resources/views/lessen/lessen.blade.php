@@ -79,6 +79,29 @@
             color: #ffffff;
         }
 
+        nav form {
+    margin: 0;
+}
+
+nav .annuleer-knop {
+    display: block;
+    margin: 0;
+    width: auto;
+    padding: 11px 16px;
+    background: #1764bd;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+nav .annuleer-knop:hover {
+    background: #123b70;
+}
+
         /* Hoofdinhoud */
         main {
             padding: 25px;
