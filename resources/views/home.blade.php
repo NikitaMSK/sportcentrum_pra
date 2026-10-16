@@ -518,6 +518,8 @@ Kom in beweging en werk aan een gezondere levensstijl!</p>
                                
                                 <button type="button"
                                         class="aanmeld-knop"
+                                        data-les-id="{{ $les->id }}"
+                                        data-les-naam="{{ $les->activiteit }}"
                                         onclick="openAanmeldPopup(this)">
                                     Aanmelden
                                 </button>
@@ -549,7 +551,8 @@ Kom in beweging en werk aan een gezondere levensstijl!</p>
                 <h2>Aanmelden voor een les</h2>
                 <p id="gekozenLes" class="gekozen-les"></p>
 
-                <form id="aanmeldForm">
+                    <form id="aanmeldForm" method="POST" action="">
+        @csrf
                     <label for="naam">Volledige naam</label>
                     <input type="text" id="naam" name="naam"
                         placeholder="Vul je volledige naam in" required>
@@ -579,24 +582,48 @@ Kom in beweging en werk aan een gezondere levensstijl!</p>
     
         <script>
             
-            function openAanmeldPopup(button) {
-                const popup = document.getElementById('aanmeldPopup');
-                const gekozenLes = button.closest('.les').querySelector('h3').textContent;
-                document.getElementById('gekozenLes').textContent = `Je meldt je aan voor: ${gekozenLes}`;
-                popup.style.display = 'flex';
-            }
+          function openAanmeldPopup(button) {
+            const popup = document.getElementById('aanmeldPopup');
+            const gekozenLes = button.dataset.lesNaam;
+
+            document.querySelectorAll('.aanmeld-knop').forEach(knop => {
+                knop.removeAttribute('data-actieve-les');
+            });
+
+            button.setAttribute('data-actieve-les', 'true');
+
+            document.getElementById('gekozenLes').textContent =
+                `Je meldt je aan voor: ${gekozenLes}`;
+
+            popup.style.display = 'flex';
+        }
 
             function sluitAanmeldPopup() {
                 const popup = document.getElementById('aanmeldPopup');
                 popup.style.display = 'none';
             }
 
-            document.getElementById('aanmeldForm').addEventListener('submit', function(event) {
-                event.preventDefault();
-                alert('Je bent succesvol aangemeld voor de les!');
-                sluitAanmeldPopup();
-            });
-          
+           document.getElementById('aanmeldForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const knop = document.querySelector(
+                '.aanmeld-knop[data-actieve-les="true"]'
+            );
+
+            if (!knop) {
+                alert('Selecteer eerst een les.');
+                return;
+            }
+
+            if (!@json(auth()->check())) {
+                window.location.href = @json(route('login'));
+                return;
+            }
+
+            this.action = `/lessen/${knop.dataset.lesId}/aanmelden`;
+            this.submit();
+        });
+                
         </script>
 
 
