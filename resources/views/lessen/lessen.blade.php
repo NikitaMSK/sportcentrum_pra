@@ -245,12 +245,25 @@
         <h2>Sportcentrum De Linde</h2>
     </header>
 
-    <nav>
-        <a href="/">Home</a>
-        <a href="/lessen" class="actief">Lessen</a>
-        <a href="/reserveringen">Mijn reserveringen</a>
+    
+<nav>
+    <a href="/">Home</a>
+    <a href="/lessen" class="actief">Lessen</a>
+    <a href="/reserveringen">Mijn reserveringen</a>
+
+    @guest
         <a href="/inloggen">Inloggen</a>
-    </nav>
+        <a href="/account-aanmaken">Account aanmaken</a>
+    @else
+        <form method="POST" action="{{ route('logout') }}">
+            @csrf
+            <button type="submit" class="annuleer-knop">
+                Uitloggen ({{ auth()->user()->name }})
+            </button>
+        </form>
+    @endguest
+</nav>
+
 
     <main>
 
