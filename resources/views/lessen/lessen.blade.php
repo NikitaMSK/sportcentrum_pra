@@ -79,6 +79,29 @@
             color: #ffffff;
         }
 
+        nav form {
+    margin: 0;
+}
+
+nav .annuleer-knop {
+    display: block;
+    margin: 0;
+    width: auto;
+    padding: 11px 16px;
+    background: #1764bd;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+nav .annuleer-knop:hover {
+    background: #123b70;
+}
+
         /* Hoofdinhoud */
         main {
             padding: 25px;
@@ -245,12 +268,25 @@
         <h2>Sportcentrum De Linde</h2>
     </header>
 
-    <nav>
-        <a href="/">Home</a>
-        <a href="/lessen" class="actief">Lessen</a>
-        <a href="/reserveringen">Mijn reserveringen</a>
+    
+<nav>
+    <a href="/">Home</a>
+    <a href="/lessen" class="actief">Lessen</a>
+    <a href="/reserveringen">Mijn reserveringen</a>
+
+    @guest
         <a href="/inloggen">Inloggen</a>
-    </nav>
+        <a href="/account-aanmaken">Account aanmaken</a>
+    @else
+        <form method="POST" action="{{ route('logout') }}">
+            @csrf
+            <button type="submit" class="annuleer-knop">
+                Uitloggen ({{ auth()->user()->name }})
+            </button>
+        </form>
+    @endguest
+</nav>
+
 
     <main>
 
