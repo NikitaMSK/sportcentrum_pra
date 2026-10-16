@@ -1,9 +1,9 @@
-
 <?php
 
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\LesController;
+use App\Http\Controllers\TrainerPanelController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [LesController::class, 'index'])->name('home');
@@ -30,3 +30,8 @@ Route::post('/uitloggen', [AuthenticatedSessionController::class, 'destroy'])
     ->middleware('auth')
     ->name('logout');
 
+Route::middleware('auth')->group(function (): void {
+    Route::get('/trainer/lessen', [TrainerPanelController::class, 'index'])->name('trainer.index');
+    Route::get('/trainer/lessen/{les}/members', [TrainerPanelController::class, 'showMembers'])
+        ->name('trainer.members');
+});
