@@ -511,7 +511,8 @@ Kom in beweging en werk aan een gezondere levensstijl!</p>
                             <div class="les-knoppen">
                                 <button type="button"
                                         class="bekijk-knop"
-                                        onclick="window.location.href='/lessen'">
+                                        data-activiteit="{{ strtolower($les->activiteit) }}"
+                                        onclick="bekijkLes(this)">
                                     Bekijk
                                 </button>
 
@@ -523,7 +524,12 @@ Kom in beweging en werk aan een gezondere levensstijl!</p>
                                         onclick="openAanmeldPopup(this)">
                                     Aanmelden
                                 </button>
+
+
+
                             </div>    
+
+                            
 
 
 
@@ -531,6 +537,32 @@ Kom in beweging en werk aan een gezondere levensstijl!</p>
 
                 </article>
             @endforeach
+
+            
+                                <!-- Video-popup -->
+                                    <div id="videoPopup" class="popup-overlay">
+                                        <div class="popup video-popup" style="max-width: 650px;">
+
+                                            <button type="button"
+                                                    class="popup-sluiten"
+                                                    onclick="sluitVideoPopup()">
+                                                &times;
+                                            </button>
+
+                                            <h2 id="videoTitel">Bekijk de les</h2>
+
+                                            <video id="lesVideo"
+                                                controls
+                                                playsinline
+                                                style="width: 100%; max-height: 400px; border-radius: 8px;">
+                                                Je browser ondersteunt geen video.
+                                            </video>
+
+                                            <div id="videoBeschrijving" style="margin-top: 15px; color: #123b70; line-height: 1.6;"></div>
+                                                                                                                                           
+
+                                        </div>
+                                    </div>
 
                         
             
@@ -623,6 +655,63 @@ Kom in beweging en werk aan een gezondere levensstijl!</p>
             this.action = `/lessen/${knop.dataset.lesId}/aanmelden`;
             this.submit();
         });
+
+                // Video openen wanneer je op Bekijk klikt
+        function bekijkLes(button) {
+            const activiteit = button.dataset.activiteit;
+
+         const videos = {
+                spinning: {
+                    titel: 'Spinning',
+                    bestand: @json(asset('videos/spinning.mp4')),
+                    beschrijving: 'Spinning is een intensieve fietstraining op muziek. Je wisselt verschillende tempo’s en weerstanden af om je conditie te verbeteren en calorieën te verbranden.'
+                },
+                yoga: {
+                    titel: 'Yoga',
+                    bestand: @json(asset('videos/yoga.mp4')),
+                    beschrijving: 'Yoga helpt je werken aan flexibiliteit, balans en mentale rust. Je voert verschillende houdingen uit terwijl je ademhaling en beweging combineert.'
+                },
+                aqua: {
+                    titel: 'Aqua fitness',
+                    bestand: @json(asset('videos/aqua.mp4')),
+                    beschrijving: 'Aqua fitness is een training in het water waarbij je aan je conditie en spierkracht werkt. Het water helpt de belasting op je gewrichten te beperken.'
+                }
+            };
+            const les = videos[activiteit];
+
+            if (!les) {
+                alert('Voor deze activiteit is nog geen video ingesteld.');
+                return;
+            }
+
+            const popup = document.getElementById('videoPopup');
+            const video = document.getElementById('lesVideo');
+
+            document.getElementById('videoTitel').textContent = les.titel;
+            document.getElementById('videoBeschrijving').textContent = les.beschrijving;
+
+            video.pause();
+            video.src = les.bestand;
+            video.load();
+
+            popup.style.display = 'flex';
+
+            video.play().catch(() => {
+                // De bezoeker kan de video zelf starten via de afspeelknop.
+            });
+        }
+
+        // Video sluiten
+        function sluitVideoPopup() {
+            const popup = document.getElementById('videoPopup');
+            const video = document.getElementById('lesVideo');
+
+            video.pause();
+            video.removeAttribute('src');
+            video.load();
+
+            popup.style.display = 'none';
+        }
                 
         </script>
 
