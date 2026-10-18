@@ -3,7 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Trainer;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Les extends Model
 {
@@ -16,8 +17,30 @@ class Les extends Model
         'trainer_id',
     ];
 
-    public function trainer()
+    /**
+     * @return array<string, string>
+     */
+    protected function casts(): array
     {
-        return $this->belongsTo(Trainer::class);
+        return [
+            'datum' => 'date',
+        ];
     }
+
+    public function trainer(): BelongsTo
+    {
+        return $this->belongsTo(Trainer::class, 'trainer_id');
+    }
+
+    public function aanmeldingen(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            User::class,
+            'les_aanmeldingen',
+            'les_id',
+            'user_id'
+        );
+    }
+
+
 }
