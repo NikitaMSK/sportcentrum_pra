@@ -578,7 +578,7 @@ Kom in beweging en werk aan een gezondere levensstijl!</p>
                                                 Je browser ondersteunt geen video.
                                             </video>
 
-                                            <div id="videoBeschrijving" style="margin-top: 15px; color: #123b70; line-height: 1.6;"></div>
+                                            <div id="videoBeschrijving" style="margin-top: 15px; color: #123b70; line-height: 1.6;"> </div>
                                                                                                                                            
 
                                         </div>
