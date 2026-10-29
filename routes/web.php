@@ -6,30 +6,32 @@ use App\Http\Controllers\LesController;
 use App\Http\Controllers\TrainerPanelController;
 use Illuminate\Support\Facades\Route;
 
-// Homepage
-Route::get('/', [LesController::class, 'index'])->name('home');
+Route::middleware('not.trainer')->group(function (): void {
+    // Homepage
+    Route::get('/', [LesController::class, 'index'])->name('home');
 
-// Lessenpagina
-Route::get('/lessen', function () {
-    $lessen = [];
+    // Lessenpagina
+    Route::get('/lessen', function () {
+        $lessen = [];
 
-    return view('lessen.lessen', compact('lessen'));
-})->name('lessen');
+        return view('lessen.lessen', compact('lessen'));
+    })->name('lessen');
 
-// Mijn reserveringen
-Route::get('/reserveringen', [LesController::class, 'reserveringen'])
-    ->middleware('auth')
-    ->name('reserveringen');
+    // Mijn reserveringen
+    Route::get('/reserveringen', [LesController::class, 'reserveringen'])
+        ->middleware('auth')
+        ->name('reserveringen');
 
-// Aanmelden voor een les
-Route::post('/lessen/{les}/aanmelden', [LesController::class, 'aanmelden'])
-    ->middleware('auth')
-    ->name('lessen.aanmelden');
+    // Aanmelden voor een les
+    Route::post('/lessen/{les}/aanmelden', [LesController::class, 'aanmelden'])
+        ->middleware('auth')
+        ->name('lessen.aanmelden');
 
-// Reservering annuleren
-Route::delete('/reserveringen/{aanmelding}', [LesController::class, 'annuleren'])
-    ->middleware('auth')
-    ->name('reserveringen.annuleren');
+    // Reservering annuleren
+    Route::delete('/reserveringen/{aanmelding}', [LesController::class, 'annuleren'])
+        ->middleware('auth')
+        ->name('reserveringen.annuleren');
+});
 
 // Inloggen en registreren
 Route::middleware('guest')->group(function (): void {

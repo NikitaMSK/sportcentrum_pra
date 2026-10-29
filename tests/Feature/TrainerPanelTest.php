@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Les;
+use App\Models\LesAanmelding;
 use App\Models\Trainer;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -95,10 +96,85 @@ it('redirects a trainer to their dashboard after login', function () {
     ]);
     Trainer::create(['naam' => $trainerUser->name]);
 
-    $this->post(route('login.store'), [
-        'email' => $trainerUser->email,
-        'password' => 'secret-password',
-    ])->assertRedirect(route('trainer.index'));
+    $this->from(route('home'))
+        ->post(route('login.store'), [
+            'email' => $trainerUser->email,
+            'password' => 'secret-password',
+        ])
+        ->assertRedirect(route('trainer.index'));
 
     $this->assertAuthenticatedAs($trainerUser);
+});
+
+it('redirects trainers from member pages to their dashboard', function () {
+    $trainerUser = User::factory()->create(['name' => 'Robin Trainer']);
+    Trainer::create(['naam' => $trainerUser->name]);
+
+    $this->actingAs($trainerUser);
+
+    foreach ([route('home'), route('lessen'), route('reserveringen')] as $memberPage) {
+        $this->get($memberPage)
+            ->assertRedirect(route('trainer.index'));
+    }
+});
+
+it('prevents trainers from registering for lessons', function () {
+    $trainerUser = User::factory()->create(['name' => 'Robin Trainer']);
+    $trainer = Trainer::create(['naam' => $trainerUser->name]);
+    $lesson = Les::create([
+        'datum' => today()->addDay(),
+        'tijd' => '18:00:00',
+        'activiteit' => 'Spinning',
+        'trainer_id' => $trainer->id,
+    ]);
+
+    $this->actingAs($trainerUser)
+        ->post(route('lessen.aanmelden', $lesson))
+        ->assertRedirect(route('trainer.index'));
+
+    $this->assertDatabaseMissing('les_aanmeldingen', [
+        'user_id' => $trainerUser->id,
+        'les_id' => $lesson->id,
+    ]);
+});
+
+it('allows regular users to register for lessons', function () {
+    $user = User::factory()->create(['name' => 'Sam Deelnemer']);
+    $trainer = Trainer::create(['naam' => 'Robin Trainer']);
+    $lesson = Les::create([
+        'datum' => today()->addDay(),
+        'tijd' => '18:00:00',
+        'activiteit' => 'Spinning',
+        'trainer_id' => $trainer->id,
+    ]);
+
+    $this->actingAs($user)
+        ->post(route('lessen.aanmelden', $lesson))
+        ->assertRedirect(route('home'));
+
+    $this->assertDatabaseHas('les_aanmeldingen', [
+        'user_id' => $user->id,
+        'les_id' => $lesson->id,
+    ]);
+});
+
+it('prevents trainers from cancelling lesson registrations', function () {
+    $trainerUser = User::factory()->create(['name' => 'Robin Trainer']);
+    $trainer = Trainer::create(['naam' => $trainerUser->name]);
+    $lesson = Les::create([
+        'datum' => today()->addDay(),
+        'tijd' => '18:00:00',
+        'activiteit' => 'Spinning',
+        'trainer_id' => $trainer->id,
+    ]);
+    $registration = LesAanmelding::create([
+        'user_id' => $trainerUser->id,
+        'les_id' => $lesson->id,
+    ]);
+
+    $this->actingAs($trainerUser)
+        ->delete(route('reserveringen.annuleren', $registration))
+        ->assertRedirect(route('trainer.index'));
+
+    $this->assertModelExists($registration);
 });

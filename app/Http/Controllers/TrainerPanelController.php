@@ -17,9 +17,9 @@ class TrainerPanelController extends Controller
 
         abort_unless($user instanceof User, 403);
 
-        $trainer = Trainer::where('naam', $user->name)->first();
+        $trainer = $user->trainer;
 
-        abort_if($trainer === null, 403, 'Niet juiste naam');
+        abort_unless($trainer instanceof Trainer, 403, 'Niet juiste naam');
 
         return $trainer;
     }
@@ -63,8 +63,8 @@ class TrainerPanelController extends Controller
             ->with('aanmeldingen')
             ->withCount('aanmeldingen')
             ->firstOrFail();
-         $lessen = $this->getUpcomingLessons($trainer);
-            $lessenPerDag = $lessen->groupBy(
+        $lessen = $this->getUpcomingLessons($trainer);
+        $lessenPerDag = $lessen->groupBy(
             fn (Les $upcomingLes): string => $upcomingLes->datum->toDateString()
         );
 

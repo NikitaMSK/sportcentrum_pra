@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\Trainer;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -38,12 +37,13 @@ class AuthenticatedSessionController extends Controller
         $request->session()->regenerate();
 
         $user = Auth::user();
-        $defaultRoute = $user instanceof User
-            && Trainer::where('naam', $user->name)->exists()
-                ? route('trainer.index')
-                : route('home');
+        if ($user instanceof User && $user->isTrainer()) {
+            $request->session()->forget('url.intended');
 
-        return redirect()->intended($defaultRoute);
+            return redirect()->route('trainer.index');
+        }
+
+        return redirect()->intended(route('home'));
     }
 
     public function destroy(Request $request): RedirectResponse
