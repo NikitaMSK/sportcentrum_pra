@@ -1,25 +1,24 @@
 <?php
 
-namespace App\Models;
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
-use Illuminate\Database\Eloquent\Model;
-
-class LesAanmelding extends Model
+return new class extends Migration
 {
-    protected $table = 'les_aanmeldingen';
-
-    protected $fillable = [
-        'user_id',
-        'les_id',
-    ];
-
-    public function les()
+    public function up(): void
     {
-        return $this->belongsTo(Les::class, 'les_id');
+        Schema::create('les_aanmeldingen', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('les_id')->constrained('lessen')->cascadeOnDelete();
+            $table->unique(['user_id', 'les_id']);
+            $table->timestamps();
+        });
     }
 
-    public function gebruiker()
+    public function down(): void
     {
-        return $this->belongsTo(User::class, 'user_id');
+        Schema::dropIfExists('les_aanmeldingen');
     }
-}
+};
