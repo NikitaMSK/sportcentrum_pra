@@ -270,7 +270,13 @@
             }
 
             .sitenaam {
+                position: static;
+                flex: 1;
+                width: auto;
+                transform: none;
                 font-size: 18px;
+                text-align: center;
+                white-space: normal;
             }
 
             nav {
@@ -302,7 +308,44 @@
                 max-width: 350px;
             }
         }
+
+        @media (min-width: 601px) and (max-width: 900px) {
+            main {
+                padding: 22px;
+            }
+
+            #reserveringenLijst {
+                display: grid;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 20px;
+            }
+
+            .reservering {
+                width: auto;
+                min-width: 0;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .logo {
+                width: 58px;
+            }
+
+            .sitenaam {
+                font-size: 16px;
+            }
+
+            .annuleer-popup {
+                padding: 20px 16px;
+            }
+
+            .popup-knoppen {
+                flex-direction: column;
+            }
+        }
+
     </style>
+    <link rel="stylesheet" href="{{ asset('css/mobile-navigation.css') }}">
 </head>
 
 <body>
@@ -315,10 +358,21 @@
             </div>
 
             <h2 class="sitenaam">Sportcentrum De Linde</h2>
+            <button
+                type="button"
+                class="nav-toggle"
+                aria-label="Menu openen"
+                aria-controls="main-navigation"
+                aria-expanded="false"
+                data-mobile-nav-toggle
+            >
+                <span class="nav-toggle-icon" aria-hidden="true"></span>
+                <span>Menu</span>
+            </button>
         </div>
     </header>
 
-    <nav>
+    <nav id="main-navigation">
         <a href="/">Home</a>
         <a href="/lessen">Lessen</a>
         <a href="/reserveringen">Mijn reserveringen</a>
@@ -437,5 +491,6 @@
         });
     </script>
 
+    <script src="{{ asset('js/mobile-navigation.js') }}" defer></script>
 </body>
 </html>

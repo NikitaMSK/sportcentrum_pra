@@ -254,7 +254,139 @@ nav .annuleer-knop:hover {
                 white-space: nowrap;
             }
         }
+
+        @media (max-width: 767px) {
+            header {
+                padding: 16px;
+                gap: 12px;
+            }
+
+            .logo {
+                width: 86px;
+                height: 68px;
+            }
+
+            header h2 {
+                padding-right: 0;
+                font-size: clamp(18px, 3vw, 24px);
+            }
+
+            nav {
+                justify-content: center;
+                gap: 8px;
+                padding: 12px;
+            }
+
+            nav a {
+                padding: 9px 10px;
+                font-size: 14px;
+            }
+
+            main {
+                padding: clamp(16px, 4vw, 25px);
+            }
+        }
+
+        @media (max-width: 600px) {
+            nav {
+                display: grid;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                align-items: stretch;
+            }
+
+            nav a {
+                text-align: center;
+            }
+
+            nav form {
+                grid-column: 1 / -1;
+            }
+
+            nav .annuleer-knop {
+                width: 100%;
+                overflow-wrap: anywhere;
+            }
+
+            .lessen-container {
+                padding: 15px;
+            }
+
+            .lessen-titel {
+                font-size: 22px;
+            }
+
+            .tabel-container {
+                overflow-x: visible;
+            }
+
+            table,
+            tbody,
+            tr,
+            td {
+                display: block;
+                width: 100%;
+            }
+
+            table {
+                border-collapse: separate;
+                border-spacing: 0 12px;
+                background: transparent;
+            }
+
+            thead {
+                position: absolute;
+                width: 1px;
+                height: 1px;
+                padding: 0;
+                margin: -1px;
+                overflow: hidden;
+                clip: rect(0, 0, 0, 0);
+                white-space: nowrap;
+                border: 0;
+            }
+
+            tbody tr {
+                overflow: hidden;
+                border: 1px solid #dbe5f1;
+                border-radius: 8px;
+                background: #ffffff;
+                box-shadow: 0 2px 8px rgba(15, 45, 85, 0.06);
+            }
+
+            tbody tr:nth-child(even),
+            tbody tr:hover {
+                background: #ffffff;
+            }
+
+            td {
+                display: grid;
+                grid-template-columns: minmax(5.5rem, 0.45fr) minmax(0, 1fr);
+                gap: 8px;
+                padding: 11px 13px;
+                font-size: 14px;
+                white-space: normal;
+                overflow-wrap: anywhere;
+            }
+
+            td::before {
+                content: attr(data-label);
+                color: #123b70;
+                font-weight: bold;
+            }
+
+            td.geen-lessen {
+                display: block;
+                text-align: center;
+                padding: 18px 12px;
+            }
+
+            td.geen-lessen::before {
+                content: none;
+            }
+        }
+
     </style>
+    <link rel="stylesheet" href="{{ asset('css/mobile-navigation.css') }}">
 </head>
 
 <body>
@@ -266,10 +398,21 @@ nav .annuleer-knop:hover {
         </div>
 
         <h2>Sportcentrum De Linde</h2>
+        <button
+            type="button"
+            class="nav-toggle"
+            aria-label="Menu openen"
+            aria-controls="main-navigation"
+            aria-expanded="false"
+            data-mobile-nav-toggle
+        >
+            <span class="nav-toggle-icon" aria-hidden="true"></span>
+            <span>Menu</span>
+        </button>
     </header>
 
     
-<nav>
+<nav id="main-navigation">
     <a href="/">Home</a>
     <a href="/lessen" class="actief">Lessen</a>
     <a href="/reserveringen">Mijn reserveringen</a>
@@ -322,13 +465,13 @@ nav .annuleer-knop:hover {
                     <tbody>
                         @forelse ($lessen as $les)
                             <tr>
-                                <td>{{ $les->datum }}</td>
+                                <td data-label="Datum">{{ $les->datum }}</td>
 
-                                <td>{{ $les->tijd }}</td>
+                                <td data-label="Tijd">{{ $les->tijd }}</td>
 
-                                <td>{{ $les->activiteit }}</td>
+                                <td data-label="Activiteit">{{ $les->activiteit }}</td>
 
-                                <td>
+                                <td data-label="Trainer">
                                     {{ $les->trainer->naam ?? 'Nog niet toegewezen' }}
                                 </td>
                             </tr>
@@ -350,7 +493,7 @@ nav .annuleer-knop:hover {
     <footer>
         Sportcentrum De Linde
     </footer>
+    <script src="{{ asset('js/mobile-navigation.js') }}" defer></script>
 
 </body>
 </html>
-

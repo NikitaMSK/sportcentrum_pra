@@ -1,0 +1,88 @@
+.nav-toggle {
+    display: none;
+}
+
+@media (max-width: 600px) {
+    .has-mobile-navigation .nav-toggle {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        min-height: 44px;
+        padding: 9px 14px;
+        border: 1px solid #d5e2f1;
+        border-radius: 8px;
+        background: #ffffff;
+        color: #123b70;
+        font: inherit;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .has-mobile-navigation .nav-toggle:focus-visible {
+        outline: 2px solid #2676d9;
+        outline-offset: 3px;
+    }
+
+    .nav-toggle-icon,
+    .nav-toggle-icon::before,
+    .nav-toggle-icon::after {
+        display: block;
+        width: 20px;
+        height: 2px;
+        border-radius: 2px;
+        background: currentColor;
+        transition: transform 0.2s ease, background-color 0.2s ease;
+    }
+
+    .nav-toggle-icon {
+        position: relative;
+    }
+
+    .nav-toggle-icon::before,
+    .nav-toggle-icon::after {
+        position: absolute;
+        left: 0;
+        content: "";
+    }
+
+    .nav-toggle-icon::before {
+        top: -6px;
+    }
+
+    .nav-toggle-icon::after {
+        top: 6px;
+    }
+
+    .nav-toggle[aria-expanded="true"] .nav-toggle-icon {
+        background: transparent;
+    }
+
+    .nav-toggle[aria-expanded="true"] .nav-toggle-icon::before {
+        transform: translateY(6px) rotate(45deg);
+    }
+
+    .nav-toggle[aria-expanded="true"] .nav-toggle-icon::after {
+        transform: translateY(-6px) rotate(-45deg);
+    }
+
+    .has-mobile-navigation nav#main-navigation:not(.is-open) {
+        display: none;
+    }
+
+    .has-mobile-navigation nav#main-navigation.is-open {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 4px;
+        padding: 12px 16px;
+    }
+
+    .has-mobile-navigation nav#main-navigation a {
+        text-align: left;
+    }
+
+    .has-mobile-navigation nav#main-navigation form {
+        width: 100%;
+    }
+}
