@@ -278,30 +278,46 @@ footer {
     margin-top: 15px;
 }
 
-.les-knoppen button {
+
+.les-knoppen button,
+.les-knoppen a {
     flex: 1;
     width: auto;
+    height: 48px;
     margin-top: 0;
     padding: 10px 8px;
     border: none;
     border-radius: 8px;
+    font-family: inherit;
+    font-size: 16px;
     font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
     cursor: pointer;
 }
 
-.bekijk-knop {
-    background-color: #2563eb;
-    color: white;
+
+
+.bekijk-knop,
+.aanmeld-knop {
+    background-color: #1764bd;
+    color: #ffffff;
+    text-decoration: none;
 }
 
-.aanmeld-knop {
-    background-color: #16a34a;
-    color: white;
+.bekijk-knop:hover,
+.aanmeld-knop:hover {
+    background-color: #123b70;
 }
 
 .aanmeld-knop.aangemeld {
     background-color: #64748b;
 }
+
 
 /* Achtergrond van de popup */
 
@@ -457,112 +473,11 @@ footer {
     }
 }
 
-@media (max-width: 767px) {
-    header {
-        padding: 16px;
-        gap: 12px;
-    }
 
-    .logo {
-        width: 86px;
-        height: 68px;
-    }
 
-    header h2 {
-        padding-right: 0;
-        font-size: clamp(18px, 3vw, 24px);
-    }
 
-    nav {
-        justify-content: center;
-        gap: 8px;
-        padding: 12px;
-    }
-
-    nav a {
-        padding: 9px 10px;
-        font-size: 14px;
-    }
-
-    main {
-        padding: clamp(16px, 4vw, 25px);
-    }
-
-    .lessen {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 18px;
-    }
-
-    .les {
-        width: auto;
-        min-width: 0;
-    }
-
-    .les img {
-        height: auto;
-        aspect-ratio: 16 / 10;
-    }
-}
-
-@media (max-width: 480px) {
-    header {
-        padding: 12px;
-    }
-
-    .logo {
-        width: 64px;
-        height: 54px;
-    }
-
-    header h2 {
-        font-size: 18px;
-    }
-
-    nav {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        align-items: stretch;
-    }
-
-    nav a {
-        text-align: center;
-    }
-
-    nav form {
-        grid-column: 1 / -1;
-    }
-
-    nav .annuleer-knop {
-        width: 100%;
-        overflow-wrap: anywhere;
-    }
-
-    .lessen {
-        grid-template-columns: minmax(0, 1fr);
-        gap: 16px;
-    }
-
-    .les {
-        width: 100%;
-        max-width: none;
-    }
-
-    .les-knoppen {
-        gap: 8px;
-    }
-
-    .les-knoppen button {
-        padding: 10px 6px;
-    }
-
-    .intro h2 {
-        font-size: 23px;
-    }
-}
 
     </style>
-    <link rel="stylesheet" href="{{ asset('css/mobile-navigation.css') }}">
 </head>
 
 
@@ -574,20 +489,9 @@ footer {
         </div>
 
         <h2>Sportcentrum De Linde</h2>
-        <button
-            type="button"
-            class="nav-toggle"
-            aria-label="Menu openen"
-            aria-controls="main-navigation"
-            aria-expanded="false"
-            data-mobile-nav-toggle
-        >
-            <span class="nav-toggle-icon" aria-hidden="true"></span>
-            <span>Menu</span>
-        </button>
     </header>
 
-    <nav id="main-navigation">
+    <nav>
         <a href="{{ route('home') }}">Home</a>
         <a href="{{ url('/lessen') }}">Lessen</a>
         <a href="/reserveringen">Mijn reserveringen</a>
@@ -631,13 +535,9 @@ Kom in beweging en werk aan een gezondere levensstijl!</p>
 
                     <h3>{{ $les->activiteit }}</h3>
 
-                    <p>{{ $les->tijd }}</p>
-                    <p>{{ $les->datum }}</p>
+                    <p>Trainer: {{ $les->trainer->naam ?? 'Nog niet toegewezen' }}</p>
 
-                    <p>
-                        Trainer:
-                        {{ $les->trainer->naam ?? 'Nog niet toegewezen' }}
-                    </p>
+                   
 
                                                 
                             <div class="les-knoppen">
@@ -649,13 +549,9 @@ Kom in beweging en werk aan een gezondere levensstijl!</p>
                                 </button>
 
                                
-                                <button type="button"
-                                        class="aanmeld-knop"
-                                        data-les-id="{{ $les->id }}"
-                                        data-les-naam="{{ $les->activiteit }}"
-                                        onclick="openAanmeldPopup(this)">
+                               <a href="{{ route('lessen') }}" class="aanmeld-knop">
                                     Aanmelden
-                                </button>
+                               </a>
 
 
 
@@ -743,7 +639,6 @@ Kom in beweging en werk aan een gezondere levensstijl!</p>
     <footer>
          &copy; 2026 Sportcentrum De Linde. Alle rechten voorbehouden.
     </footer>
-    <script src="{{ asset('js/mobile-navigation.js') }}" defer></script>
     
         <script>
             
