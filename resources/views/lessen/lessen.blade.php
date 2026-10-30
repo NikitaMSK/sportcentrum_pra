@@ -192,6 +192,23 @@ nav .annuleer-knop:hover {
             padding: 25px;
             color: #475569;
         }
+        
+        /* Aanmeldknop */
+        .aanmeld-knop {
+            display: inline-block;
+            background: #1764bd;
+            color: #ffffff;
+            text-decoration: none;
+            padding: 10px 16px;
+            border-radius: 6px;
+            font-weight: bold;
+            white-space: nowrap;
+            transition: background-color 0.2s ease;
+        }
+
+        .aanmeld-knop:hover {
+            background: #123b70;
+        }
 
         /* Footer */
         footer {
@@ -254,139 +271,7 @@ nav .annuleer-knop:hover {
                 white-space: nowrap;
             }
         }
-
-        @media (max-width: 767px) {
-            header {
-                padding: 16px;
-                gap: 12px;
-            }
-
-            .logo {
-                width: 86px;
-                height: 68px;
-            }
-
-            header h2 {
-                padding-right: 0;
-                font-size: clamp(18px, 3vw, 24px);
-            }
-
-            nav {
-                justify-content: center;
-                gap: 8px;
-                padding: 12px;
-            }
-
-            nav a {
-                padding: 9px 10px;
-                font-size: 14px;
-            }
-
-            main {
-                padding: clamp(16px, 4vw, 25px);
-            }
-        }
-
-        @media (max-width: 600px) {
-            nav {
-                display: grid;
-                grid-template-columns: repeat(2, minmax(0, 1fr));
-                align-items: stretch;
-            }
-
-            nav a {
-                text-align: center;
-            }
-
-            nav form {
-                grid-column: 1 / -1;
-            }
-
-            nav .annuleer-knop {
-                width: 100%;
-                overflow-wrap: anywhere;
-            }
-
-            .lessen-container {
-                padding: 15px;
-            }
-
-            .lessen-titel {
-                font-size: 22px;
-            }
-
-            .tabel-container {
-                overflow-x: visible;
-            }
-
-            table,
-            tbody,
-            tr,
-            td {
-                display: block;
-                width: 100%;
-            }
-
-            table {
-                border-collapse: separate;
-                border-spacing: 0 12px;
-                background: transparent;
-            }
-
-            thead {
-                position: absolute;
-                width: 1px;
-                height: 1px;
-                padding: 0;
-                margin: -1px;
-                overflow: hidden;
-                clip: rect(0, 0, 0, 0);
-                white-space: nowrap;
-                border: 0;
-            }
-
-            tbody tr {
-                overflow: hidden;
-                border: 1px solid #dbe5f1;
-                border-radius: 8px;
-                background: #ffffff;
-                box-shadow: 0 2px 8px rgba(15, 45, 85, 0.06);
-            }
-
-            tbody tr:nth-child(even),
-            tbody tr:hover {
-                background: #ffffff;
-            }
-
-            td {
-                display: grid;
-                grid-template-columns: minmax(5.5rem, 0.45fr) minmax(0, 1fr);
-                gap: 8px;
-                padding: 11px 13px;
-                font-size: 14px;
-                white-space: normal;
-                overflow-wrap: anywhere;
-            }
-
-            td::before {
-                content: attr(data-label);
-                color: #123b70;
-                font-weight: bold;
-            }
-
-            td.geen-lessen {
-                display: block;
-                text-align: center;
-                padding: 18px 12px;
-            }
-
-            td.geen-lessen::before {
-                content: none;
-            }
-        }
-
     </style>
-    <link rel="stylesheet" href="{{ asset('css/mobile-navigation.css') }}">
 </head>
 
 <body>
@@ -398,21 +283,10 @@ nav .annuleer-knop:hover {
         </div>
 
         <h2>Sportcentrum De Linde</h2>
-        <button
-            type="button"
-            class="nav-toggle"
-            aria-label="Menu openen"
-            aria-controls="main-navigation"
-            aria-expanded="false"
-            data-mobile-nav-toggle
-        >
-            <span class="nav-toggle-icon" aria-hidden="true"></span>
-            <span>Menu</span>
-        </button>
     </header>
 
     
-<nav id="main-navigation">
+<nav>
     <a href="/">Home</a>
     <a href="/lessen" class="actief">Lessen</a>
     <a href="/reserveringen">Mijn reserveringen</a>
@@ -459,25 +333,39 @@ nav .annuleer-knop:hover {
                             <th>Tijd</th>
                             <th>Activiteit</th>
                             <th>Trainer</th>
+                            <th>Aanmelden</th>
                         </tr>
                     </thead>
 
                     <tbody>
                         @forelse ($lessen as $les)
                             <tr>
-                                <td data-label="Datum">{{ $les->datum }}</td>
+                                <td>{{ $les->datum }}</td>
 
-                                <td data-label="Tijd">{{ $les->tijd }}</td>
+                                <td>{{ $les->tijd }}</td>
 
-                                <td data-label="Activiteit">{{ $les->activiteit }}</td>
+                                <td>{{ $les->activiteit }}</td>
 
-                                <td data-label="Trainer">
+                                <td>
                                     {{ $les->trainer->naam ?? 'Nog niet toegewezen' }}
                                 </td>
+
+                                                            
+                                <td>
+                                    <button
+                                        type="button"
+                                        class="aanmeld-knop"
+                                        data-les-id="{{ $les->id }}"
+                                        data-les-naam="{{ $les->activiteit }}"
+                                        onclick="openAanmeldPopup(this)">
+                                        Aanmelden
+                                    </button>
+                                </td>
+
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="4" class="geen-lessen">
+                                <td colspan="5" class="geen-lessen">
                                     Er zijn momenteel geen lessen beschikbaar.
                                 </td>
                             </tr>
@@ -493,7 +381,159 @@ nav .annuleer-knop:hover {
     <footer>
         Sportcentrum De Linde
     </footer>
-    <script src="{{ asset('js/mobile-navigation.js') }}" defer></script>
+
+
+
+
+<div id="aanmeldPopup" class="popup-overlay">
+    <div class="popup">
+        <button type="button" class="popup-sluiten" onclick="sluitAanmeldPopup()">×</button>
+
+        <h2>Aanmelden voor een les</h2>
+        <div class="popup-logo">
+    <img src="{{ asset('img/beeldmerk.png') }}"
+         alt="Logo Sportcentrum De Linde">
+</div>
+        <p id="gekozenLes" class="gekozen-les"></p>
+
+        <form id="aanmeldForm" method="POST" action="">
+            @csrf
+
+            <label for="naam">Volledige naam</label>
+            <input type="text" id="naam" name="naam" required>
+
+            <label for="telefoon">Telefoonnummer</label>
+            <input type="tel" id="telefoon" name="telefoon" required>
+
+            <button type="submit" class="bevestig-knop">
+                Aanmelding bevestigen
+            </button>
+        </form>
+    </div>
+</div>
+
+<style>
+    .popup-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(15, 45, 85, 0.55);
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+        z-index: 9999;
+    }
+
+    .popup {
+        position: relative;
+        background: white;
+        width: 100%;
+        max-width: 400px;
+        padding: 30px;
+        border-radius: 12px;
+        box-sizing: border-box;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    }
+    
+    .popup-logo {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid #dbe5f1;
+    }
+
+    .popup-logo img {
+        width: 160px;
+        max-width: 100%;
+        height: auto;
+        object-fit: contain;
+    }
+
+
+    .popup h2 {
+        color: #123b70;
+        text-align: center;
+    }
+
+    .gekozen-les {
+        text-align: center;
+        color: #475569;
+        margin-bottom: 20px;
+    }
+
+    .popup label {
+        display: block;
+        margin: 14px 0 6px;
+        font-weight: bold;
+    }
+
+    .popup input {
+        width: 100%;
+        padding: 11px;
+        border: 1px solid #bfdbfe;
+        border-radius: 6px;
+        box-sizing: border-box;
+    }
+
+    .popup .bevestig-knop {
+        width: 100%;
+        margin-top: 22px;
+        padding: 12px;
+        background: #1764bd;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .popup-sluiten {
+        position: absolute;
+        right: 12px;
+        top: 8px;
+        border: none;
+        background: none;
+        font-size: 28px;
+        cursor: pointer;
+    }
+</style>
+
+<script>
+    function openAanmeldPopup(knop) {
+        const lesId = knop.dataset.lesId;
+        const lesNaam = knop.dataset.lesNaam;
+
+        document.getElementById('gekozenLes').textContent =
+            'Je meldt je aan voor: ' + lesNaam;
+
+        document.getElementById('aanmeldForm').action =
+            '/lessen/' + lesId + '/aanmelden';
+
+        document.getElementById('aanmeldPopup').style.display = 'flex';
+    }
+
+    function sluitAanmeldPopup() {
+        document.getElementById('aanmeldPopup').style.display = 'none';
+    }
+
+    document.getElementById('aanmeldPopup').addEventListener('click', function(event) {
+        if (event.target === this) {
+            sluitAanmeldPopup();
+        }
+    });
+
+    document.getElementById('aanmeldForm').addEventListener('submit', function(event) {
+        if (!@json(auth()->check())) {
+            event.preventDefault();
+            window.location.href = @json(route('login'));
+        }
+    });
+</script>
+</body>
+</html>
 
 </body>
 </html>
+
