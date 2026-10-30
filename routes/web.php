@@ -6,6 +6,7 @@ use App\Http\Controllers\LesController;
 use App\Http\Controllers\TrainerPanelController;
 use App\Http\Controllers\BeheerderPanelController;
 use Illuminate\Support\Facades\Route;
+use App\Models\Les;
 
 Route::middleware('not.trainer')->group(function (): void {
     // Homepage
@@ -13,7 +14,7 @@ Route::middleware('not.trainer')->group(function (): void {
 
     // Lessenpagina
     Route::get('/lessen', function () {
-        $lessen = [];
+         $lessen = Les::with('trainer')->get();
 
         return view('lessen.lessen', compact('lessen'));
     })->name('lessen');

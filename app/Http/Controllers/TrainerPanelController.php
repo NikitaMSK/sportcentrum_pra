@@ -30,7 +30,6 @@ class TrainerPanelController extends Controller
     private function getUpcomingLessons(Trainer $trainer): Collection
     {
         return $trainer->lessen()
-            ->whereDate('datum', '>=', today())
             ->withCount('aanmeldingen')
             ->orderBy('datum')
             ->orderBy('tijd')
@@ -58,7 +57,6 @@ class TrainerPanelController extends Controller
     {
         $trainer = $this->getTrainerOrAbort();
         $selectedLes = $trainer->lessen()
-            ->whereDate('datum', '>=', today())
             ->whereKey($les->getKey())
             ->with('aanmeldingen')
             ->withCount('aanmeldingen')
