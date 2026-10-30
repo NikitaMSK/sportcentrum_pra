@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 
@@ -37,12 +38,26 @@ class AuthenticatedSessionController extends Controller
         $request->session()->regenerate();
 
         $user = Auth::user();
+
+        // Beheerder controleren
+        $isBeheerder = DB::table('beheerders')
+            ->where('user_id', $user->id)
+            ->exists();
+
+        if ($isBeheerder) {
+            $request->session()->forget('url.intended');
+
+            return redirect()->route('beheerder.index');
+        }
+
+        // Trainer controleren
         if ($user instanceof User && $user->isTrainer()) {
             $request->session()->forget('url.intended');
 
             return redirect()->route('trainer.index');
         }
 
+        // Gewone gebruiker
         return redirect()->intended(route('home'));
     }
 
