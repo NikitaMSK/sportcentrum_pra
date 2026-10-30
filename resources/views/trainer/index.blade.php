@@ -93,7 +93,7 @@
                     <div class="rounded-xl border border-dashed border-blue-200 bg-blue-50/60 px-5 py-8 text-center">
                         <p class="font-semibold text-blue-950">Er staan geen komende lessen op je rooster.</p>
                         <p class="mt-1 text-sm text-slate-600">Nieuwe lessen verschijnen hier zodra ze zijn ingepland.</p>
-                    </div>
+                    </div> {--@empty-sectie laat ik een bericht zien wanneer de trainer geen toekomstige lessen heeft--}
                 @endforelse
             </section>
 
@@ -122,7 +122,7 @@
                         @forelse ($selectedLes->aanmeldingen as $deelnemer)
                             <div class="flex items-center gap-3 border-b border-slate-100 py-3 last:border-b-0">
                                 <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-blue-100 text-sm font-bold text-blue-800">
-                                    {{ mb_strtoupper(mb_substr($deelnemer->name, 0, 1)) }}
+                                    {{ mb_strtoupper(mb_substr($deelnemer->name, 0, 1)) }} {{-- Voor iedere deelnemer toon ik de naam. Met mb_substr() haal ik de eerste letter van de naam op en met mb_strtoupper() maak ik deze hoofdletter. --}}
                                 </span>
                                 <span class="font-medium text-slate-800">{{ $deelnemer->name }}</span>
                             </div>

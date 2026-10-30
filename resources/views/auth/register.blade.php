@@ -70,6 +70,7 @@
                 required
                 autocomplete="new-password"
                 class="w-full rounded-lg border border-blue-300 bg-white px-4 py-3 text-blue-950 outline-none transition focus:border-blue-700 focus:ring-2 focus:ring-blue-200">
+                {{-- Laravel vergelijkt beide wachtwoorden tijdens de validatie. Zo voorkom ik dat de gebruiker per ongeluk een verkeerd wachtwoord registreert --}}
         </div>
 
         <button

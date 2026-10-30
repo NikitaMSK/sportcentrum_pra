@@ -13,12 +13,12 @@ use Illuminate\View\View;
 
 class RegisteredUserController extends Controller
 {
-    public function create(): View
+    public function create(): View //De create-methode toont het registratieformulier aan de bezoeker
     {
         return view('auth.register');
     }
 
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request): RedirectResponse //In de store-methode valideer ik de gegevens van het registratieformulier
     {
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],

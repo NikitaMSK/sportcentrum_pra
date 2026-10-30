@@ -47,7 +47,7 @@
                 type="checkbox"
                 name="remember"
                 value="1"
-                @checked(old('remember'))
+                @checked(old('remember')) {{-- met old() behoud ik eerder ingevyld e-mails --}}
                 class="h-4 w-4 accent-blue-700">
             <span>Ingelogd blijven</span>
         </label>

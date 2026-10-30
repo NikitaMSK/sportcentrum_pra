@@ -11,7 +11,7 @@
     <main class="flex min-h-screen items-center justify-center px-4 py-10 sm:px-6">
         <div class="w-full max-w-md">
             <p class="mb-6 text-center text-sm font-semibold uppercase tracking-[0.2em] text-blue-700">
-                @yield('eyebrow')
+                @yield('eyebrow') {{-- Met @yield definieer ik plekken waar de inhoud van een andere Blade-view wordt geplaatst. --}}
             </p>
 
             <section class="overflow-hidden rounded-2xl border border-blue-200 bg-white shadow-xl shadow-blue-900/10">
