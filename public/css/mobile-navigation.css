@@ -4,10 +4,12 @@
 
 @media (max-width: 600px) {
     .has-mobile-navigation .nav-toggle {
-        display: inline-flex;
+        display: flex;
         align-items: center;
         justify-content: center;
         gap: 8px;
+        width: fit-content;
+        margin: 12px 16px 12px auto;
         min-height: 44px;
         padding: 9px 14px;
         border: 1px solid #d5e2f1;

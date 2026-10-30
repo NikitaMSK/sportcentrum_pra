@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mijn Reserveringen - Sportcentrum De Linde</title>
+    <link rel="stylesheet" href="{{ asset('css/mobile-navigation.css') }}">
 
     <style>
         * {
@@ -318,7 +319,17 @@
         </div>
     </header>
 
-    <nav>
+    <button type="button"
+            class="nav-toggle"
+            data-mobile-nav-toggle
+            aria-controls="main-navigation"
+            aria-expanded="false"
+            aria-label="Menu openen">
+        <span class="nav-toggle-icon" aria-hidden="true"></span>
+        <span>Menu</span>
+    </button>
+
+    <nav id="main-navigation">
         <a href="/">Home</a>
         <a href="/lessen">Lessen</a>
         <a href="/reserveringen">Mijn reserveringen</a>
@@ -436,6 +447,7 @@
             }
         });
     </script>
+    <script src="{{ asset('js/mobile-navigation.js') }}"></script>
 
 </body>
 </html>

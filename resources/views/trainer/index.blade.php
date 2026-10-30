@@ -63,7 +63,7 @@
                     @php($lesDatum = $dagLessen->first()->datum)
                     <div class="mb-5 last:mb-0">
                         <h3 class="mb-3 text-sm font-bold uppercase tracking-wide text-slate-500">
-                            {{ $lesDatum->isToday() ? 'Vandaag' : $lesDatum->format('d-m-Y') }}
+                            {{ $lesDatum->isToday() ? 'Vandaag' : $lesDatum->format('d-m-Y') }} {{-- @forelse om de lessen per dag weer te geven --}}
                         </h3>
 
                         <div class="space-y-3">
