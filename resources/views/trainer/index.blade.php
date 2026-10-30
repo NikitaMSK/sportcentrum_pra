@@ -4,24 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mijn lessen | Sportcentrum De Linde</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @vite(['resources/css/app.css', 'resources/js/app.js']) {{-- directive voor css en js --}}
 </head>
 <body class="min-h-screen bg-slate-50 font-sans text-slate-900 antialiased">
     <header class="border-b border-blue-100 bg-white">
-        <div class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-8">
-            <a href="{{ route('home') }}" class="flex min-w-0 items-center gap-3">
-                <img
+        <div class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-8"> 
+            <a href="{{ route('home') }}" class="flex min-w-0 items-center gap-3">{{-- uitlogknop --}}
+                <img 
                     class="h-11 w-11 shrink-0 object-contain"
-                    src="{{ asset('img/beeldmerk.png') }}"
+                    src="{{ asset('img/beeldmerk.png') }}" 
                     alt="Logo Sportcentrum De Linde"
-                >
+                > 
                 <span class="truncate text-base font-bold text-blue-950 sm:text-lg">
                     Sportcentrum De Linde
                 </span>
             </a>
 
-            <form method="POST" action="{{ route('logout') }}">
-                @csrf
+            <form method="POST" action="{{ route('logout') }}"> {{-- uitlogknop in POST --}}
+                @csrf {{-- beveiligingstoken --}}
                 <button
                     type="submit"
                     class="rounded-lg border border-blue-200 px-3 py-2 text-sm font-semibold text-blue-900 transition hover:bg-blue-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-700 sm:px-4">
@@ -37,13 +37,13 @@
                 <p class="mb-2 text-sm font-bold uppercase tracking-[0.16em] text-blue-700">Overzicht</p>
                 <h1 class="text-3xl font-bold tracking-tight text-blue-950 sm:text-4xl">Mijn lessen</h1>
                 <p class="mt-2 text-slate-600">
-                    Welkom, {{ $trainer->naam }}. Hier vind je je lessen en deelnemers.
+                    Welkom, {{ $trainer->naam }}. Hier vind je je lessen en deelnemers. 
                 </p>
             </div>
 
             <div class="w-fit rounded-xl border border-blue-100 bg-white px-5 py-3 shadow-sm">
                 <p class="text-sm font-medium text-slate-500">Komende lessen</p>
-                <p class="mt-1 text-2xl font-bold text-blue-900">{{ $lessen->count() }}</p>
+                <p class="mt-1 text-2xl font-bold text-blue-900">{{ $lessen->count() }}</p> {{-- aantal komende lessen --}}
             </div>
         </div>
 

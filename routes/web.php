@@ -1,14 +1,15 @@
 <?php
 
-use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\Auth\AuthenticatedSessionController; //Controllers, routes en les model importeren
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\LesController;
 use App\Http\Controllers\TrainerPanelController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('not.trainer')->group(function (): void {
-    // Homepage
+    // middleware not.trainer zorgt ervoor dat trainers niet op de homepage kunnen komen
     Route::get('/', [LesController::class, 'index'])->name('home');
+    // Homepagina
 
     // Lessenpagina
     Route::get('/lessen', function () {
@@ -59,4 +60,5 @@ Route::middleware('auth')->group(function (): void {
     Route::get('/trainer/lessen', [TrainerPanelController::class, 'index'])->name('trainer.index');
     Route::get('/trainer/lessen/{les}/members', [TrainerPanelController::class, 'showMembers'])
         ->name('trainer.members');
+        //De auth-middleware controleert of de gebruiker is ingelogd
 });

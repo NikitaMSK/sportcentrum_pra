@@ -1,58 +1,78 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Sportcentrum De Linde
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Sportcentrum De Linde is een webapplicatie voor het bekijken van sportlessen en het beheren van reserveringen. De applicatie is gebouwd met Laravel.
 
-## About Laravel
+## Benodigdheden
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- PHP 8.3 of hoger
+- Composer
+- Node.js en npm
+- MySQL
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Installatie
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+1. Open PowerShell in de projectmap en installeer de PHP-afhankelijkheden:
 
-## Learning Laravel
+   ```powershell
+   composer install
+   ```
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+2. Maak het lokale configuratiebestand:
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+   ```powershell
+   Copy-Item .env.example .env
+   ```
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+3. Maak in MySQL een database aan, bijvoorbeeld `sportcentrumlinde`. Pas daarna de database-instellingen in `.env` aan:
 
-## Agentic Development
+   ```dotenv
+   DB_CONNECTION=mysql
+   DB_HOST=127.0.0.1
+   DB_PORT=3306
+   DB_DATABASE=sportcentrumlinde
+   DB_USERNAME=root
+   DB_PASSWORD=
+   ```
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+   Vul bij `DB_USERNAME` en `DB_PASSWORD` de gegevens van je eigen MySQL-installatie in.
 
-```bash
-composer require laravel/boost --dev
+4. Genereer de applicatiesleutel en maak de tabellen met voorbeeldgegevens aan:
 
-php artisan boost:install
-```
+   ```powershell
+   php artisan key:generate
+   php artisan migrate --seed
+   ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+5. Installeer de frontend-afhankelijkheden en bouw de bestanden:
 
-## Contributing
+   ```powershell
+   npm install
+   npm run build
+   ```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+6. Start de lokale webserver:
 
-## Code of Conduct
+   ```powershell
+   php artisan serve
+   ```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+   Open vervolgens [http://localhost:8000](http://localhost:8000) in je browser.
 
-## Security Vulnerabilities
+## De applicatie gebruiken
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### Bezoekers en leden
 
-## License
+- Op de startpagina (`/`) kun je het lesaanbod bekijken. Bij lessen met een video kun je op **Bekijk** klikken.
+- Kies **Account aanmaken** om een account te registreren. Met een bestaand account kun je via **Inloggen** aanmelden.
+- Via **Mijn reserveringen** kun je je reserveringen bekijken en annuleren.
+- Gebruik **Uitloggen** om je account veilig af te sluiten.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### Trainers en beheerders
+
+- Een trainer met een gekoppeld account kan via `/trainer/lessen` het rooster bekijken en deelnemers per les bekijken.
+- Een beheerder met een geautoriseerd account kan via `/beheerder` het overzicht van komende lessen en deelnemers bekijken.
+- Deze pagina's zijn alleen toegankelijk voor accounts die vooraf als trainer of beheerder zijn ingesteld. Er zijn geen standaard inloggegevens meegeleverd.
+
+## Let op
+
+De database-seeder voegt voorbeeldlessen toe. De pagina **Lessen** (`/lessen`) is momenteel nog niet gekoppeld aan de database en toont daarom geen lessen. Daardoor kan aanmelden voor een les via de website op dit moment nog niet worden afgerond.
